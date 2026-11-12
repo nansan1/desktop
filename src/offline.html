@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>offline</title>
+<style>
+  body { margin: 0; font-family: "Segoe UI", system-ui, sans-serif; background: #FFF4FA; color: #3A2E5C;
+    background-image: linear-gradient(#f3e3f0 1px, transparent 1px), linear-gradient(90deg, #f3e3f0 1px, transparent 1px); background-size: 24px 24px;
+    display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+  .win { background: #fff; border: 2px solid #3A2E5C; box-shadow: 6px 6px 0 #3A2E5C; max-width: 440px; width: 90%; }
+  .bar { background: #C9B6FF; border-bottom: 2px solid #3A2E5C; padding: 6px 10px; font-weight: 700; display: flex; gap: 6px; align-items: center; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid #3A2E5C; background: #FFB3D9; }
+  .body { padding: 18px 20px 20px; line-height: 1.5; }
+  button { font: inherit; font-weight: 700; background: #FFE58A; color: #3A2E5C; border: 2px solid #3A2E5C; box-shadow: 3px 3px 0 #3A2E5C; padding: 8px 16px; cursor: pointer; }
+  button:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 #3A2E5C; }
+  .small { font-size: 12px; opacity: .7; margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="win">
+  <div class="bar"><span class="dot"></span><span class="dot" style="background:#FFE58A"></span><span class="dot" style="background:#B8F0D8"></span><span id="t" style="margin-left:6px"></span></div>
+  <div class="body">
+    <p id="msg"></p>
+    <button id="retry">Try again</button>
+    <p class="small" id="err"></p>
+  </div>
+</div>
+<script>
+  const q = new URLSearchParams(location.search);
+  const name = q.get('name') || (window.nanShell && window.nanShell.name) || 'The app';
+  document.getElementById('t').textContent = name;
+  document.getElementById('msg').textContent = name + ' could not load. This happens the first time it opens without internet. After it has opened once online, it works offline. Connect to the internet and try again.';
+  document.getElementById('err').textContent = q.get('err') ? 'Details: ' + q.get('err') : '';
+  const go = () => window.nanShell && window.nanShell.retry();
+  document.getElementById('retry').onclick = go;
+  setInterval(() => { if (navigator.onLine) go(); }, 15000);
+</script>
+</body>
+</html>

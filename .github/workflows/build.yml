@@ -1,0 +1,57 @@
+name: Build Windows apps
+
+# Runs when a version tag (v1.0.0, v1.0.1, ...) is pushed, or by hand from the Actions tab.
+# Each app's installer goes to its own release (keel-latest, holdfast-latest, ...).
+# The installed apps check that release for updates; the download links never change.
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        app: [helm, keel, lodestar, spinnaker, holdfast, fathom]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build installer
+        run: node scripts/build.js ${{ matrix.app }}
+
+      - name: Publish to ${{ matrix.app }}-latest
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $app = "${{ matrix.app }}"
+          $tag = "$app-latest"
+          $name = (Get-Content apps.json | ConvertFrom-Json).$app.name
+          $url = (Get-Content apps.json | ConvertFrom-Json).$app.url
+          $ver = (Get-Content package.json | ConvertFrom-Json).version
+          $notes = "$name for Windows (desktop shell $ver). Install once with $name-Setup.exe; it updates itself after that. The app itself loads from $url, so it is always the latest version."
+          gh release view $tag 2>$null
+          if ($LASTEXITCODE -ne 0) {
+            gh release create $tag --title "$name for Windows" --notes "$notes" --target $env:GITHUB_SHA
+          } else {
+            gh release edit $tag --title "$name for Windows" --notes "$notes"
+          }
+          $dir = "dist/$app"
+          gh release upload $tag "$dir/$name-Setup.exe" "$dir/$name-Setup.exe.blockmap" --clobber
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+          # latest.yml last, so the updater never sees a new version before its installer is there
+          gh release upload $tag "$dir/latest.yml" --clobber
+          if ($LASTEXITCODE -ne 0) { exit 1 }

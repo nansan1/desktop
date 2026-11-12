@@ -1,0 +1,63 @@
+{
+  "helm": {
+    "name": "Helm",
+    "url": "https://helm.nan2nan.workers.dev/",
+    "icon": "helm",
+    "pixel": true,
+    "protocol": "nan-helm",
+    "bridge": null,
+    "files": []
+  },
+  "keel": {
+    "name": "Keel",
+    "url": "https://keel.nan2nan.workers.dev/",
+    "icon": "keel",
+    "pixel": true,
+    "protocol": "nan-keel",
+    "bridge": "gwDesktop",
+    "fileFormat": "base64",
+    "files": [{ "ext": "groundwork", "name": "Keel backup" }]
+  },
+  "lodestar": {
+    "name": "Lodestar",
+    "url": "https://lodestar.nan2nan.workers.dev/",
+    "icon": "lodestar",
+    "pixel": true,
+    "protocol": "nan-lodestar",
+    "bridge": "deskDesktop",
+    "fileFormat": "base64",
+    "saveBackup": true,
+    "files": [{ "ext": "ddesk", "name": "Lodestar backup" }]
+  },
+  "spinnaker": {
+    "name": "Spinnaker",
+    "url": "https://spinnaker.nan2nan.workers.dev/",
+    "icon": "spinnaker",
+    "pixel": false,
+    "protocol": "nan-spinnaker",
+    "bridge": "spkDesktop",
+    "fileFormat": "base64",
+    "printPdf": true,
+    "files": [{ "ext": "spinnaker", "name": "Spinnaker deck" }],
+    "openAlso": ["pptx"]
+  },
+  "holdfast": {
+    "name": "Holdfast",
+    "url": "https://holdfast.nan2nan.workers.dev/",
+    "icon": "holdfast",
+    "pixel": false,
+    "protocol": "nan-holdfast",
+    "bridge": "holdfastDesktop",
+    "fileFormat": "text",
+    "files": [{ "ext": "holdfast", "name": "Holdfast backup" }]
+  },
+  "fathom": {
+    "name": "Fathom",
+    "url": "https://fathom.nan2nan.workers.dev/",
+    "icon": "fathom",
+    "pixel": true,
+    "protocol": "nan-fathom",
+    "bridge": null,
+    "files": []
+  }
+}
