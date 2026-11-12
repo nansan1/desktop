@@ -1,12 +1,14 @@
 name: Build Windows apps
 
-# Runs when a version tag (v1.0.0, v1.0.1, ...) is pushed, or by hand from the Actions tab.
+# Runs when the shell's code changes on main (raise the version in package.json first),
+# or by hand from the Actions tab.
 # Each app's installer goes to its own release (keel-latest, holdfast-latest, ...).
 # The installed apps check that release for updates; the download links never change.
 
 on:
   push:
-    tags: ['v*']
+    branches: [main]
+    paths: ['src/**', 'apps.json', 'package.json', 'package-lock.json', 'scripts/**', 'build/**', '.github/workflows/**']
   workflow_dispatch:
 
 permissions:

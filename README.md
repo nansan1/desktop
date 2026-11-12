@@ -30,7 +30,7 @@ The installers are not signed, so Windows may say "Windows protected your PC": c
 ## Releasing a new shell version (only when this repo's code changes)
 App updates never need this. Only for changes to `src/`, `apps.json` or the build:
 1. Raise `version` in `package.json` and add a line to `CHANGELOG.md`.
-2. Commit, then push a tag with the same number: `git tag v1.0.1 && git push origin main v1.0.1`.
+2. Commit and push to main. (Pushing tags is blocked from Claude's sessions, so the build runs on pushes to main that touch the shell's files.)
 3. GitHub Actions builds all six installers on Windows and replaces the files in each `<app>-latest` release. Installed apps update themselves.
 
 ## Adding an app
