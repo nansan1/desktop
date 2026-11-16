@@ -1,7 +1,7 @@
 {
   "name": "nan-desktop",
   "productName": "Nan Desktop",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Windows apps for Helm, Keel, Lodestar, Spinnaker, Holdfast and Fathom. Each opens its live address and updates itself.",
   "main": "src/main.js",
   "private": true,
